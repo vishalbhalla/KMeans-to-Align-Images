@@ -33,14 +33,14 @@ for k = 1:stepsize:maxElements
     fixedPoints(:,i) = centroid2(:,k);
     i = i+1;
 end
-
-cpselect(double(Modality2),double(Modality1),movingPoints,fixedPoints);
+% ct(double(Modality2),double(Modality1),movingPoints,fixedPoints);
 
 
 % Step 4: Estimate Transformation
-% Fit a nonreflective similarity transformation to your control points.
+% Fit a 
+%cpselenonreflective similarity transformation to your control points.
 
-tform = fitgeotrans(movingPoints,fixedPoints,'nonreflectivesimilarity');
+% tform = fitgeotrans(movingPoints,fixedPoints,'nonreflectivesimilarity');
 
 
 % Step 5: Solve for Scale and Angle
@@ -49,22 +49,22 @@ tform = fitgeotrans(movingPoints,fixedPoints,'nonreflectivesimilarity');
 % Let sc = s*cos(theta)
 % Let ss = s*sin(theta)
 
-tformInv = invert(tform);
-Tinv = tformInv.T;
-ss = Tinv(2,1);
-sc = Tinv(1,1);
-scale_recovered = sqrt(ss*ss + sc*sc)
-theta_recovered = atan2(ss,sc)*180/pi
+% tformInv = invert(tform);
+% Tinv = tformInv.T;
+% ss = Tinv(2,1);
+% sc = Tinv(1,1);
+% scale_recovered = sqrt(ss*ss + sc*sc)
+% theta_recovered = atan2(ss,sc)*180/pi
 
 
 % Step 6: Recover Original Image
 % Recover the Modality1 image by transforming Modality2, the rotated-and-scaled image, using the geometric transformation tform and what you know about the spatial referencing of Modality1. 
 % The 'OutputView' Name/Value pair is used to specify the resolution and grid size of the resampled output image.
 
-Roriginal = imref2d(size(Modality1));
-recovered = imwarp(double(Modality2),tform,'OutputView',Roriginal);
+% Roriginal = imref2d(size(Modality1));
+% recovered = imwarp(double(Modality2),tform,'OutputView',Roriginal);
 
 % Compare recovered to Modality1 by looking at them side-by-side in a montage.
-figure, imshowpair(double(Modality1),recovered,'montage')
+% figure, imshowpair(double(Modality1),recovered,'montage')
 
 end
